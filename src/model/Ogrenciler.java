@@ -8,6 +8,7 @@ public class Ogrenciler {
     String kullaniciadi;
     String sifre;
     Integer ders_id;
+    Dersler ders;
 
     public Ogrenciler() {
     }
@@ -72,6 +73,14 @@ public class Ogrenciler {
 
     public void setSifre(String sifre) {
         this.sifre = sifre;
+    }
+
+    public Dersler getDers() {
+        return ders;
+    }
+
+    public void setDers(Dersler ders) {
+        this.ders = ders;
     }
 
 }

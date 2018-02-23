@@ -1,5 +1,6 @@
 package controller;
 
+import model.Dersler;
 import model.Ogrenciler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -57,19 +58,19 @@ public class MainController {
 
     public List<Ogrenciler> list()
     {
-        String sql = "SELECT * FROM ogrenciler";
+        String sql = "Select * from ogrenciler inner join dersler on ogrenciler.ders_id = dersler.id";
 
         List<Ogrenciler> listOgrenciler = jdbcTemplate.query(sql, rs -> {
             List<Ogrenciler> list = new ArrayList<Ogrenciler>();
             while (rs.next())
             {
                 Ogrenciler ogrenci = new Ogrenciler();
-                ogrenci.setId(rs.getInt(1));
-                ogrenci.setIsim(rs.getString(2));
-                ogrenci.setSoyisim(rs.getString(3));
-                ogrenci.setKullaniciadi(rs.getString(4));
-                ogrenci.setSifre(rs.getString(5));
-                ogrenci.setDers_id(rs.getInt(6));
+                ogrenci.setId(rs.getInt("id"));
+                ogrenci.setIsim(rs.getString("isim"));
+                ogrenci.setSoyisim(rs.getString("soyisim"));
+                ogrenci.setKullaniciadi(rs.getString("kullaniciadi"));
+                ogrenci.setSifre(rs.getString("sifre"));
+                ogrenci.setDers(getDers(rs.getInt("ders_id")));
                 list.add(ogrenci);
             }
             return list;
@@ -82,9 +83,27 @@ public class MainController {
     public ModelAndView listOgrenciler(ModelAndView model) throws IOException {
         List<Ogrenciler> listOgrenciler = list();
         model.addObject("listOgrenciler", listOgrenciler);
-        model.setViewName("home");
+        model.setViewName("/students");
 
         return model;
+    }
+
+    public Dersler getDers(int dersID) {
+        String sql = "SELECT * FROM dersler WHERE id=" + dersID;
+        return jdbcTemplate.query(sql, new ResultSetExtractor<Dersler>() {
+
+            @Override
+            public Dersler extractData(ResultSet rs) throws SQLException,
+                    DataAccessException {
+                if (rs.next()) {
+                    Dersler ders = new Dersler();
+                    ders.setId(rs.getInt("id"));
+                    ders.setDers(rs.getString("ders"));
+                    return ders;
+                }
+                return null;
+            }
+        });
     }
 
 }
