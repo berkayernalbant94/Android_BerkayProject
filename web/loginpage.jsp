@@ -15,7 +15,7 @@
         <input type="text" name="kullaniciadi" class="form-control" placeholder="Kullanıcı Adı" required autofocus>
         <label class="sr-only">Şifre</label>
         <input type="password" name="sifre" class="form-control" placeholder="Şifre" required>
-        <div style="color: red">${error}</div>
+        <div style="color: red; margin-bottom: 12px;">${error}</div>
         <input class="btn btn-lg btn-primary btn-block" type="submit" value="Giriş">
     </form>
     </div>

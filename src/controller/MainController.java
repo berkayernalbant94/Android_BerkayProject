@@ -2,6 +2,7 @@ package controller;
 
 import model.Dersler;
 import model.Ogrenciler;
+import model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -104,6 +106,13 @@ public class MainController {
                 return null;
             }
         });
+    }
+
+    @GetMapping(value = "/getAllStudents")
+    public Response getResource() {
+        List<Ogrenciler> listOgrenciler = list();
+        Response response = new Response("Done", listOgrenciler);
+        return response;
     }
 
 }
